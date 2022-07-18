@@ -1,5 +1,5 @@
 # Protein-glycan docking
-
+https://autodock-vina.readthedocs.io/en/latest/docking_flexible.html
 ## Software Requirements
 If you are a University of Mississippi member, the following software are required to complete this tutorial:\
 Linux/Mac Users: [PyMOL](https://pymol.org/2/)\
