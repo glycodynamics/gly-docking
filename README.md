@@ -1,5 +1,12 @@
 # Protein-glycan docking
 https://autodock-vina.readthedocs.io/en/latest/docking_flexible.html
+
+https://www.click2drug.org/index.php#Binding%20free%20energy%20estimation 
+
+https://casfaculty.fiu.edu/David.Chatfield/workshop/materials/drug-design/fiu-docking-tutorial.pdf
+https://personal.utdallas.edu/~son051000/comp/EdelmiroMoman.pdf
+
+https://www.bu.edu/chemistry/files/2010/11/Docking.20101122.pdf
 ## Software Requirements
 If you are a University of Mississippi member, the following software are required to complete this tutorial:\
 Linux/Mac Users: [PyMOL](https://pymol.org/2/)\
