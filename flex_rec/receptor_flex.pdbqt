@@ -1,0 +1,99 @@
+BEGIN_RES TYR H  32
+REMARK  3 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    1  A    between atoms: CA   and  CB  
+REMARK    2  A    between atoms: CB   and  CG  
+REMARK    3  A    between atoms: CZ   and  OH  
+ROOT
+ATOM      1  CA  TYR H  32     -36.537  33.688  12.495  1.00 18.29     0.180 C 
+ENDROOT
+BRANCH   1   2
+ATOM      2  CB  TYR H  32     -35.194  32.959  12.519  1.00 19.77     0.073 C 
+BRANCH   2   3
+ATOM      3  CG  TYR H  32     -34.733  32.494  13.872  1.00 22.87    -0.056 A 
+ATOM      4  CD1 TYR H  32     -35.207  31.307  14.422  1.00 20.12     0.010 A 
+ATOM      5  CE1 TYR H  32     -34.753  30.859  15.666  1.00 23.09     0.037 A 
+ATOM      6  CZ  TYR H  32     -33.816  31.610  16.365  1.00 23.55     0.065 A 
+ATOM      7  CE2 TYR H  32     -33.335  32.797  15.836  1.00 23.27     0.037 A 
+ATOM      8  CD2 TYR H  32     -33.794  33.233  14.597  1.00 21.76     0.010 A 
+BRANCH   6   9
+ATOM      9  OH  TYR H  32     -33.351  31.166  17.589  1.00 24.63    -0.361 OA
+ATOM     10  H09 TYR H  32     -33.120  30.236  17.526  1.00 24.63     0.217 HD
+ENDBRANCH   6   9
+ENDBRANCH   2   3
+ENDBRANCH   1   2
+END_RES TYR H  32
+BEGIN_RES TYR H  33
+REMARK  3 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    4  A    between atoms: CA   and  CB  
+REMARK    5  A    between atoms: CB   and  CG  
+REMARK    6  A    between atoms: CZ   and  OH  
+ROOT
+ATOM     11  CA  TYR H  33     -35.954  36.540  10.090  1.00 16.40     0.180 C 
+ENDROOT
+BRANCH  11  12
+ATOM     12  CB  TYR H  33     -35.592  37.970  10.478  1.00 15.75     0.073 C 
+BRANCH  12  13
+ATOM     13  CG  TYR H  33     -36.760  38.914  10.588  1.00 19.01    -0.056 A 
+ATOM     14  CD1 TYR H  33     -37.799  38.676  11.488  1.00 16.84     0.010 A 
+ATOM     15  CE1 TYR H  33     -38.867  39.573  11.605  1.00 19.32     0.037 A 
+ATOM     16  CZ  TYR H  33     -38.891  40.712  10.820  1.00 19.88     0.065 A 
+ATOM     17  CE2 TYR H  33     -37.869  40.968   9.919  1.00 21.27     0.037 A 
+ATOM     18  CD2 TYR H  33     -36.813  40.069   9.807  1.00 18.42     0.010 A 
+BRANCH  16  19
+ATOM     19  OH  TYR H  33     -39.930  41.602  10.917  1.00 21.96    -0.361 OA
+ATOM     20  H08 TYR H  33     -40.166  41.916  10.041  1.00 21.96     0.217 HD
+ENDBRANCH  16  19
+ENDBRANCH  12  13
+ENDBRANCH  11  12
+END_RES TYR H  33
+BEGIN_RES TYR H  50
+REMARK  3 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK    7  A    between atoms: CA   and  CB  
+REMARK    8  A    between atoms: CB   and  CG  
+REMARK    9  A    between atoms: CZ   and  OH  
+ROOT
+ATOM     21  CA  TYR H  50     -33.769  40.088   4.603  1.00 18.73     0.180 C 
+ENDROOT
+BRANCH  21  22
+ATOM     22  CB  TYR H  50     -33.504  41.014   5.805  1.00 19.53     0.073 C 
+BRANCH  22  23
+ATOM     23  CG  TYR H  50     -34.465  42.172   6.018  1.00 22.78    -0.056 A 
+ATOM     24  CD1 TYR H  50     -35.817  41.954   6.311  1.00 23.54     0.010 A 
+ATOM     25  CE1 TYR H  50     -36.685  43.016   6.544  1.00 23.32     0.037 A 
+ATOM     26  CZ  TYR H  50     -36.210  44.314   6.488  1.00 25.64     0.065 A 
+ATOM     27  CE2 TYR H  50     -34.877  44.560   6.203  1.00 25.81     0.037 A 
+ATOM     28  CD2 TYR H  50     -34.013  43.488   5.967  1.00 22.93     0.010 A 
+BRANCH  26  29
+ATOM     29  OH  TYR H  50     -37.065  45.372   6.703  1.00 26.65    -0.361 OA
+ATOM     30  H09 TYR H  50     -37.249  45.810   5.869  1.00 26.65     0.217 HD
+ENDBRANCH  26  29
+ENDBRANCH  22  23
+ENDBRANCH  21  22
+END_RES TYR H  50
+BEGIN_RES TRP H 105
+REMARK  2 active torsions:
+REMARK  status: ('A' for Active; 'I' for Inactive)
+REMARK   10  A    between atoms: CA   and  CB  
+REMARK   11  A    between atoms: CB   and  CG  
+ROOT
+ATOM     31  CA  TRP H 105     -27.730  39.492  12.437  1.00 18.07     0.181 C 
+ENDROOT
+BRANCH  31  32
+ATOM     32  CB  TRP H 105     -27.228  40.633  11.544  1.00 18.23     0.075 C 
+BRANCH  32  33
+ATOM     33  CG  TRP H 105     -28.223  41.735  11.313  1.00 19.04    -0.028 A 
+ATOM     34  CD1 TRP H 105     -28.757  42.113  10.116  1.00 17.14     0.096 A 
+ATOM     35  NE1 TRP H 105     -29.609  43.178  10.292  1.00 18.41    -0.365 N 
+ATOM     36  CE2 TRP H 105     -29.641  43.505  11.621  1.00 17.66     0.042 A 
+ATOM     37  H07 TRP H 105     -30.127  43.643   9.560  1.00 18.41     0.165 HD
+ATOM     38  CZ2 TRP H 105     -30.357  44.507  12.286  1.00 18.85     0.030 A 
+ATOM     39  CD2 TRP H 105     -28.777  42.614  12.297  1.00 18.24    -0.002 A 
+ATOM     40  CH2 TRP H 105     -30.195  44.606  13.644  1.00 17.37     0.002 A 
+ATOM     41  CZ3 TRP H 105     -29.340  43.734  14.346  1.00 20.81     0.001 A 
+ATOM     42  CE3 TRP H 105     -28.628  42.737  13.684  1.00 20.27     0.014 A 
+ENDBRANCH  32  33
+ENDBRANCH  31  32
+END_RES TRP H 105
