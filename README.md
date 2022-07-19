@@ -1,4 +1,6 @@
 # Protein-glycan docking
+
+
 https://autodock-vina.readthedocs.io/en/latest/docking_flexible.html
 
 https://www.click2drug.org/index.php#Binding%20free%20energy%20estimation 
@@ -7,6 +9,108 @@ https://casfaculty.fiu.edu/David.Chatfield/workshop/materials/drug-design/fiu-do
 https://personal.utdallas.edu/~son051000/comp/EdelmiroMoman.pdf
 
 https://www.bu.edu/chemistry/files/2010/11/Docking.20101122.pdf
+Open PuTTY and connect to Fucose workstation using your credencials:
+```
+ssh -X guest01@fucose.pharmacy.olemiss.edu
+```
+##Connect to remote workstation:
+
+All input files have been prepared and placed under ./practice directory for your convenience . 
+
+Login to fucose using the instructions provided during the lecture. Linux/Mac users can use terminal to connect to ccbrc workstation, whereas windows users should use PyTTY to connect to the ccbrc workstation.
+```
+leo:~ sushil$ ssh -X guestXX@machine.host.name
+guestXX@machine.host.name's password: 
+Last login: Tue Jul 19 13:33:49 2022 from idose.pharmacy.olemiss.edu
+
+##########################################################################
+##									##
+##    Computational Chemistry and Bioinformatics Research Core (CCBRC)	##
+##									##
+##			Support: sushil@olemiss.edu			##
+##									##
+##----------------------------------------------------------------------##
+## 	Access to this machine is strictly for research and to  	##
+##	authorized users only. 						## 
+##									##
+##########################################################################
+-bash-4.2$ pwd
+
+```
+Now if you will type "ls -l" and hit enter, there should be two directories "practice and tutorial" available to everyone.
+```
+-bash-4.2$ ls -l
+total 8
+drwxr-xr-x. 2 sushil cgw 4096 Dec 15  2021 practice
+drwxrwxr-x. 2 sushil cgw 4096 Dec 16  2021 tutorial
+```
+
+Directory "tutorial has all the precalculated data if you want to look into the correct output files. Another directory named "practice" has only input files for docking, and you can run calculations under this directory. To do so, type cd "./practice" and hit enter. Then type "ls -l," and it should list two direcotiries:
+```
+flex_lig  : input files for rigid receptor + flexible ligand docking  
+flex_rec  " input files for flexible receptor + flexible ligand docking  
+```
+To use any software in this machines you need to load them as module. All teh available software can be listed using follwoing command:
+```
+module avail
+
+------------------------------------ /usr/share/Modules/modulefiles ------------------------------------
+dot         module-git  module-info modules     null        use.own
+
+------------------------------------------- /etc/modulefiles -------------------------------------------
+amber/20                     fesetup                      netpbm
+**autodock-vina**                glycotorch-vina              pymol/v2
+basecalling/filtlong         guppy/gpu-6.0.1              rosetta/2020.50.61505
+basecalling/flye-2.9         maxcluster/0.6.6             schrodinger/2020.4
+basecalling/miniasm-0.3-r179 **mgltools/v2.1.5.7**            sire/2020.1
+basecalling/polypolish       modeller/10.0                smina/1.2.2
+basecalling/porechop         modeller/9.25                spicker/v1.0
+basecalling/pycoqc           mpi/mpich-3.0-x86_64         **vina-carb/v1.2**
+boost                        mpi/mpich-x86_64             vmd/1.9.3
+cresset/Flare                msub/v1.0                    xscore/v1.2.1
+cresset/Forge                naccess1/v2.1.1
+cresset/Spark                namd/3.0alpha
+
+```
+## Prepare ligand and receptor input files for docking
+Change direcotry to 'flex_lig' and run follwoing commands to perform docking:
+
+```
+module load autodock-vina 				# Load AutoDock Vina to your working environment
+module load vina-carb/v1.2 				# Load Vina-carb to your working environment
+module load mgltools/v2.1.5.7				# Load MGL Tools to your working environment
+
+prepare_ligand4.py -l LeY-xray.pdb -A hydrogens 	# Convert LeY-xray.pdb into LeY-xray.pdbqt (Vina Input file)
+prepare_receptor4.py -r receptor.pdb -o receptor.pdbqt -A "hydrogens"	# Convert receptor.pdb in receptor.pdbqt (Vina Input file)
+```
+If you see an error message "**init.c(556):ERROR:161: Cannot initialize TCL**" run follwoing command to fix it
+```
+unset LD_LIBRARY_PATH
+
+```
+## Perform docking using AutoDock Vina andvina-carb
+Now run docking using Vina and vina-carb as below:
+
+```
+vina --config config_vina.txt   #this will run vina using input parameters in 'config_vina.txt' file
+```
+This run should finish within a minute and file "LeY-xray_vina_out.pdbqt" containing all the docked poses will be generated. Now repeate docking using Vina-carb and input parameters present in "config_vc.txt" file (as below). It should generate a file "LeY-xray_vc_out.pdbqt" taht contains all the docking poses. 
+
+```
+vina-carb --config config_vc.txt   #this will run vina-carb using input parameters in 'config_vc.txt' into back into your computer and load them in PyMOL.
+
+```
+## Visulizing docking poses:
+
+Now, copy _receptor.pdb_, _LeY-xray_vc_out.pdbqt_, and _LeY-xray_vina_out.pdbqt_ 
+```
+63
+-bash-4.2$ cd practice
+64
+-bash-4.2$ ls -l
+```
+
+
 ## Software Requirements
 If you are a University of Mississippi member, the following software are required to complete this tutorial:\
 Linux/Mac Users: [PyMOL](https://pymol.org/2/)\
@@ -30,11 +134,6 @@ config_vc.txt
 config_vina.txt
 ```
 ```
-module load mgltools/v2.1.5.7 
-prepare_ligand4.py -l LeY-xray.pdb -A hydrogens
-prepare_ligand4.py -l LeY-glycam.pdb -A hydrogens
-
-
 
 prepare_ligand4.py -l ligand.pdb -o ligand.pdbqt -A hydrogens
 prepare_ligand4.py -l ligand.pdb -o ligand.pdbqt -A hydrogens
