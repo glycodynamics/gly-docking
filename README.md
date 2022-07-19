@@ -10,17 +10,17 @@ Other users are required to have:\
 Linux/Mac Users: [PyMOL](https://pymol.org/2/), [AutoDock Vina](https://vina.scripps.edu/), [Vina-carb](http://legacy.glycam.org/docs/othertoolsservice/downloads/downloads-software/index.html) and [GlycoTorch Vina](https://github.com/EricBoittier/GlycoTorch-Vina)\
 Windows Users: [PyMOL](https://pymol.org/2/), [PuTTY](https://www.putty.org/), [WinSCP](https://winscp.net/eng/download.php), [AutoDock Vina](https://vina.scripps.edu/)
 
-Vina-carb and GlycoTorch Vina software are not available for windows OS. All these programs have been preinstalled in your desktop or we will access them remotely in one of the CCBRC Workstation.
+Vina-carb and GlycoTorch Vina software are not available for windows OS. All these programs have been preinstalled on your desktop or we will access them remotely in one of the CCBRC Workstations.
 
-This tutorial aims to dock a tetrasaccharide to FAb using the [AutoDock Vina](https://vina.scripps.edu), and [Vina-carb](https://pubs.acs.org/doi/10.1021/acs.jctc.5b00834). You can download all the input files by clicking on Code --> Download Zip. Unzip this file and go inside the docking directory. All these files have been placed in the coputer you will be working in. 
+This tutorial aims to dock a tetrasaccharide to FAb using the [AutoDock Vina](https://vina.scripps.edu), and [Vina-carb](https://pubs.acs.org/doi/10.1021/acs.jctc.5b00834). You can download all the input files by clicking on Code --> Download Zip. Unzip this file and go inside the docking directory. All these files have been placed on the computer you will be working in. 
 
 We will break down this tutorial into five steps.
 
 ## 1. Obtain protein and glycan complex for docking: 
-In this tutorial, we will be docking a Lewis Y Tetrasaccharide with Humanized Fab. First of all, download the X-ray structure of the complex from PDB [PDB ID: 1S3K](https://www.rcsb.org/structure/1s3k). Follwoing figure shows the LeY binding to Fab as seen in its crystal structure. 
+In this tutorial, we will be docking a Lewis Y Tetrasaccharide with Humanized Fab. First of all, download the X-ray structure of the complex from PDB [PDB ID: 1S3K](https://www.rcsb.org/structure/1s3k). The following figure shows the LeY binding to Fab as seen in its crystal structure. 
 ![alt text](https://github.com/glycodynamics/gly-docking/blob/main/images/Input_Fig.png)
 
- Now, open the PDB Structure in PyMOL and prepare structure of the ligand protein for docking. Perform the following structure manipulations:
+ Now, open the PDB Structure in PyMOL and prepare the structure of the ligand-protein for docking. Perform the following structure manipulations:
 
 #### Remove crystal waters: 
 Open 1S3K.pdb file in PyMOL and click non on Action --> remove waters
@@ -37,7 +37,7 @@ These files have been prepared and placed under ./practice directory under your 
 
 ## 2. Connect to remote workstation:
 
-Login to fucose using the instructions provided during the lecture. Linux/Mac users can use terminal to connect to ccbrc workstation, whereas windows users should use PyTTY to connect to the CCBRC workstation.
+Login to fucose using the instructions provided during the lecture. Linux/Mac users can use the terminal to connect to ccbrc workstation, whereas windows users should use PyTTY to connect to the CCBRC workstation.
 
 ```
 $ ssh -X guestXX@fucose.pharmacy.olemiss.edu ## replace XX with your serial number
@@ -65,12 +65,12 @@ drwxr-xr-x. 2 sushil cgw 4096 Dec 15  2021 practice
 drwxrwxr-x. 2 sushil cgw 4096 Dec 16  2021 tutorial
 ```
 
-Directory "tutorial has all the precalculated data if you want to look into the correct output files. Another directory named "practice" has only input files for docking, and you can run calculations under this directory. To do so, type cd "./practice" and hit enter. Then type "ls -l," and it should list two direcotiries:
+Directory "tutorial has all the precalculated data if you want to look into the correct output files. Another directory named "practice" has only input files for docking, and you can run calculations under this directory. To do so, type cd "./practice" and hit enter. Then type "ls -l," and it should list two directories:
 ```
 flex_lig  : input files for rigid receptor + flexible ligand docking  
 flex_rec  " input files for flexible receptor + flexible ligand docking  
 ```
-To use any software in this machines you need to load them as module. All teh available software can be listed using follwoing command:
+To use any software in this machine you need to load them as a module. All the available software can be listed using the follwoing command:
 ```
 $ module avail
 
@@ -93,7 +93,7 @@ cresset/Spark                namd/3.0alpha
 
 ```
 ## 3. Prepare flexible ligand and rigid receptor input files for docking
-Change direcotry to 'flex_lig' and run follwoing commands to perform docking:
+Change directory to 'flex_lig' and run the follwoing commands to perform docking:
 
 ```
 module load autodock-vina 				# Load AutoDock Vina to your working environment
@@ -103,14 +103,14 @@ module load mgltools/v2.1.5.7				# Load MGL Tools to your working environment
 prepare_ligand4.py -l LeY-xray.pdb -A hydrogens 	# Convert LeY-xray.pdb into LeY-xray.pdbqt (Vina Input file)
 prepare_receptor4.py -r receptor.pdb -o receptor.pdbqt -A "hydrogens"	# Convert receptor.pdb in receptor.pdbqt (Vina Input file)
 ```
-Nore: If you see an error message "**init.c(556):ERROR:161: Cannot initialize TCL**" run follwoing command to fix it
+Nore: If you see an error message "**init.c(556):ERROR:161: Cannot initialize TCL**" run the following command to fix it
 ```
 unset LD_LIBRARY_PATH
 
 ```
 
-## 4. Perform docking using AutoDock Vina andvina-carb
-In addiiton to receptor and liagnd input files in PDBQT format, a configuration containing all the docking parameters is needed for docking. There are two configuration files _config_vc.txt_ (for vina_carb) and _config_vina.txt_ (for Vina) present in the practice directory. These configuration file have mainly follwoiing input parameters:
+## 4. Perform docking using AutoDock Vina and vina-carb
+In addition to receptor and ligand input files in PDBQT format, a configuration containing all the docking parameters is needed for docking. There are two configuration files _config_vc.txt_ (for vina_carb) and _config_vina.txt_ (for Vina) present in the practice directory. These configuration files have mainly following input parameters:
 
 ```
 receptor=receptor.pdbqt		# name of receptor input file
@@ -182,7 +182,7 @@ mode |   affinity | dist from best mode
 Writing output ... done.
 
 ```
-This run should finish within a minute and file "LeY-xray_vina_out.pdbqt" containing all the docked poses will be generated. Now repeate docking using Vina-carb and input parameters present in "config_vc.txt" file (as below). It should generate a file "LeY-xray_vc_out.pdbqt" taht contains all the docking poses. 
+This run should finish within a minute and file "LeY-xray_vina_out.pdbqt" containing all the docked poses will be generated. Now repeat docking using Vina-carb and input parameters present in "config_vc.txt" file (as below). It should generate a file "LeY-xray_vc_out.pdbqt" that contains all the docking poses. 
 
 **Perform docking using Vina-carb:**
 
@@ -239,12 +239,12 @@ Since have docked LeY to Fab using two different software, AutoDock Vina, Vina-c
 
 ![alt text](https://github.com/glycodynamics/gly-docking/blob/main/images/Vina_docking_Fig.png)
 
-Yoi will see that top scoring pose from AutoDock is very different from the crystal structure binding pose of LeY. However, Vina-carb docking pose superimposes very over the crystal structure binding pose. This shows that Chi entrinsic energy function introdused in vina-carb produces accurate results compared to Vina. However the 3rd docking pose of very accurate but the scoring function failed to rank this pose as the top ranking pose. Suppose if we did not know how LeY binds to Fab, we would never that docking results by vina are not correct. Therefore, for the cases where the dockind protocol cannot be validadated by reproducing the crystal structures of the some ligands, it is advised to analyzed a number of top scoring poses carefully and instead relying on the just top scoring pose. 
+You will see that the top scoring pose from AutoDock is very different from the crystal structure binding pose of LeY. However, the Vina-carb docking pose superimposes very much over the crystal structure binding pose. This shows that Chi intrinsic energy function introduced in vina-carb produces accurate results compared to Vina. However the 3rd docking pose of very accurate but the scoring function failed to rank this pose as the top ranking pose. Suppose if we did not know how LeY binds to Fab, we would never that docking results by vina are not correct. Therefore, for the cases where the docking protocol cannot be validated by reproducing the crystal structures of some ligands, it is advised to analyze many top scoring poses carefully instead of relying on the just top scoring pose. 
 
 
 ## 6. Flexible receptor docking 
 
-Change direcotory to lex_rec and repeat the calculations as for rigid receptor docking.
+Change directory to lex_rec and repeat the calculations for rigid receptor docking.
 ```
 $ cd ~/practice/flex_rec
 $ ls -l 
@@ -258,7 +258,7 @@ total 860
 ```
 
 ## 7. Prepare flexible ligand and rigid receptor input files for docking
-In flexible receptor docking you need to prepare input file for flexible and rigid part of the receptor. We will use _prepare_flexreceptor4.py_ scripy of MGL Tools to prepare flexible receptor where _Tyr3 Tyr33 Tyr50 and Trp105_ are allowd to move during the docking. 
+In flexible receptor docking, you need to prepare an input file for the flexible and rigid parts of the receptor. We will use _prepare_flexreceptor4.py_ script of MGL Tools to prepare flexible receptor where _Tyr3 Tyr33 Tyr50 and Trp105_ are allowed to move during the docking. 
 
 ```
 $ prepare_ligand4.py -l LeY-xray.pdb -A hydrogens
@@ -277,11 +277,11 @@ total 1508
 -rw-r--r--. 1 sushil cgw 320080 Jul 19 15:05 receptor_rigid.pdbqt
 
 ```
-Please not that '-s' option in prepare_flexreceptor4.py script allows user to procvide residues which you want to keep flexible during the docking. In this case we are keeping four amino-acid residues _Tyr3 Tyr33 Tyr50 and Trp105_ flexible during the docking. In general one should keep only those residue to be flexible whose conformational changes can affect ligand binding. Output file _receptor_flex.pdbqt_ and _receptor_rigid.pdbqt_ contains flexible and rigid part of the receptor for docking.
+Please note that '-s' option in prepare_flexreceptor4.py script allows the user to provide residues that you want to keep flexible during the docking. In this case, we are keeping four amino-acid residues _Tyr3 Tyr33 Tyr50 and Trp105_ flexible during the docking. In general, one should keep only those residues to be flexible whose conformational changes can affect ligand binding. Output file _receptor_flex.pdbqt_ and _receptor_rigid.pdbqt_ contains flexible and rigid part of the receptor for docking.
 
 ## 8. Perform docking using AutoDock Vina and vina-carb
 
-Configuration file for flexible receptor docking is nearly identlical as ofr rigid receptor docking except the input file names. Since receptor has been splitted into flexible and rigid parts, configuration file shoudl have follwoing keywords
+The configuration file for flexible receptor docking is nearly identical to rigid receptor docking except for the input file names. Since the receptor has been split into flexible and rigid parts, the configuration file should have the follwoing keywords
 
 ```
 receptor=receptor_rigid.pdbqt	#name of file containing rigid part of the receptor
@@ -335,12 +335,12 @@ mode |   affinity | dist from best mode
   10         -6.1      2.488      5.993
 Writing output ... done.
 ```
-Flexible ligand docking should take longer time compared to rigid receptor docking. Repeat the same claulcation using vina-carb and you hsould get finally two outfiles _LeY-xray_vina_flex_out.pdbqt_ and _LeY-xray_vc_flex_out.pdbqt_. Copy both these files in your local computer and analyze the binding modes. 
+Flexible ligand docking should take a longer time compared to rigid receptor docking. Repeat the same calculation using vina-carb and you should get finally two output files _LeY-xray_vina_flex_out.pdbqt_ and _LeY-xray_vc_flex_out.pdbqt_. Copy both these files to your local computer and analyze the binding modes. 
 
 
 ## 9. Analyzing flexible docking results
 
-Copy output files _LeY-xray_vc_out.pdbqt_ and _LeY-xray_vina_out.pdbqt_ to your loac computer and load them in PyMOL for visual inspection. You will see that Vina and vina-carb show a similar behavior in flexible receptor docking and no segnifican change in the docking conformations have been observed. This shows that flexible receptor docking may not always be needed as rigid receptor docking can dock LeY well into Fab. 
+Copy output files _LeY-xray_vc_out.pdbqt_ and _LeY-xray_vina_out.pdbqt_ to your local computer and load them in PyMOL for visual inspection. You will see that Vina and vina-carb show similar behavior in flexible receptor docking and no significant change in the docking conformations has been observed. This shows that flexible receptor docking may not always be needed as rigid receptor docking can dock LeY well into Fab. 
 
 
 
