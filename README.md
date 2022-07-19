@@ -1,3 +1,5 @@
+# Protein-glycan docking tutorial:
+
 ## Software Requirements
 
 Following software are required to complete this tutorial:\
@@ -10,21 +12,22 @@ Windows Users: [PyMOL](https://pymol.org/2/), [PuTTY](https://www.putty.org/), [
 
 Vina-carb and GlycoTorch Vina software are not available for windows OS. All these programs have been preinstalled in your desktop or we will access them remotely in one of the CCBRC Workstation.
 
-# Protein-glycan docking tutorial:
 This tutorial aims to dock a tetrasaccharide to FAb using the [AutoDock Vina](https://vina.scripps.edu), and [Vina-carb](https://pubs.acs.org/doi/10.1021/acs.jctc.5b00834). You can download all the input files by clicking on Code --> Download Zip. Unzip this file and go inside the docking directory. All these files have been placed in the coputer you will be working in. 
 
 We will break down this tutorial into five steps.
 
-## 1. Obtain Protein and GAG Structure for docking: 
-In this tutorial, we will be docking a Lewis Y Tetrasaccharide with Humanized Fab. First of all, download the X-ray structure of the complex from PDB [PDB ID: 1S3K](https://www.rcsb.org/structure/1s3k). Now, open the PDB Structure in PyMOL and perform the following structure manipulations:
-
+## 1. Obtain protein and glycan complex for docking: 
+In this tutorial, we will be docking a Lewis Y Tetrasaccharide with Humanized Fab. First of all, download the X-ray structure of the complex from PDB [PDB ID: 1S3K](https://www.rcsb.org/structure/1s3k). Follwoing figure shows the LeY binding to Fab as seen in its crystal structure. 
 ![alt text](https://github.com/glycodynamics/gly-docking/blob/main/images/Input_Fig.png)
 
+ Now, open the PDB Structure in PyMOL and prepare structure of the ligand protein for docking. Perform the following structure manipulations:
+
 #### Remove crystal waters: 
-Open 1t8u.pdb file in PyMOL and click non on Action --> remove waters
+Open 1S3K.pdb file in PyMOL and click non on Action --> remove waters
+
 #### Save ligand and protein separately
 Now split the complex in protein and glycan and save them separately in two separate PDB files. \
-Select LeY tetrasaccharide by clicking left mouse button on each monosaccharide. Then click on File --> export molecule --> Selection (sele) --> Save File name: ligand --> Files of type: pdb --> save. A [ligand.pdb](https://github.com/glycodynamics/gly-docking/blob/main/receptor_A.pdb) file will be saved in your computer 
+Select LeY tetrasaccharide by clicking left mouse button on each monosaccharide. Then click on File --> export molecule --> Selection (sele) --> Save File name:  LeY-xray --> Files of type: pdb --> save. A [Ley-xray.pdb](https://github.com/glycodynamics/gly-docking/blob/main/LeY-xray.pdb) file will be saved in your computer 
 
 Now select all the co-crystalized ligands and remove them (Action --> remove atoms). \
 Then save protein: File --> export molecule --> Selection (1s3k) --> Save File name: receptor --> Files of type: pdb --> save. \
@@ -32,7 +35,7 @@ A [receptor.pdb](https://github.com/glycodynamics/gly-docking/blob/main/receptor
 
 These files have been prepared and placed under ./practice directory under your account in fucose. 
 
-##Connect to remote workstation:
+## 2. Connect to remote workstation:
 
 Login to fucose using the instructions provided during the lecture. Linux/Mac users can use terminal to connect to ccbrc workstation, whereas windows users should use PyTTY to connect to the CCBRC workstation.
 
@@ -69,7 +72,7 @@ flex_rec  " input files for flexible receptor + flexible ligand docking
 ```
 To use any software in this machines you need to load them as module. All teh available software can be listed using follwoing command:
 ```
-module avail
+$ module avail
 
 ------------------------------------ /usr/share/Modules/modulefiles ------------------------------------
 dot         module-git  module-info modules     null        use.own
@@ -89,7 +92,7 @@ cresset/Forge                naccess1/v2.1.1
 cresset/Spark                namd/3.0alpha
 
 ```
-## 2. Prepare flexible ligand and rigid receptor input files for docking
+## 3. Prepare flexible ligand and rigid receptor input files for docking
 Change direcotry to 'flex_lig' and run follwoing commands to perform docking:
 
 ```
@@ -106,7 +109,7 @@ unset LD_LIBRARY_PATH
 
 ```
 
-## 3. Perform docking using AutoDock Vina andvina-carb
+## 4. Perform docking using AutoDock Vina andvina-carb
 Now run docking using Vina and vina-carb as below:
 
 ```
@@ -156,7 +159,8 @@ Writing output ... done.
 ```
 This run should finish within a minute and file "LeY-xray_vina_out.pdbqt" containing all the docked poses will be generated. Now repeate docking using Vina-carb and input parameters present in "config_vc.txt" file (as below). It should generate a file "LeY-xray_vc_out.pdbqt" taht contains all the docking poses. 
 
-Perform docking using Vina-carb:
+**Perform docking using Vina-carb:**
+
 ```
 $ vina-carb --config config_vc.txt   	#this will run vina-carb using input parameters in 'config_vc.txt' 
 
@@ -228,8 +232,8 @@ total 860
 -rw-r--r--. 1 sushil cgw 524003 Jul 19 13:45 receptor.pdb
 ```
 
-
-## Prepare flexible ligand and rigid receptor input files for docking
+## 7. Prepare flexible ligand and rigid receptor input files for docking
+In flexible receptor docking you need to prepare input file for flexible and rigid part of the receptor. We will use _prepare_flexreceptor4.py_ scripy of MGL Tools to prepare flexible receptor where _Tyr3 Tyr33 Tyr50 and Trp105_ are allowd to move during the docking. 
 
 ```
 $ prepare_ligand4.py -l LeY-xray.pdb -A hydrogens
@@ -250,7 +254,7 @@ total 1508
 ```
 Please not that '-s' option in prepare_flexreceptor4.py script allows user to procvide residues which you want to keep flexible during the docking. In this case we are keeping four amino-acid residues _Tyr3 Tyr33 Tyr50 and Trp105_ flexible during the docking. In general one should keep only those residue to be flexible whose conformational changes can affect ligand binding. Output file _receptor_flex.pdbqt_ and _receptor_rigid.pdbqt_ contains flexible and rigid part of the receptor for docking.
 
-## Perform docking using AutoDock Vina andvina-carb
+## 8. Perform docking using AutoDock Vina and vina-carb
 Now run docking using Vina and vina-carb as below:
 
 ```
@@ -298,149 +302,13 @@ Writing output ... done.
 Flexible ligand docking should take longer time compared to rigid receptor docking. Repeat the same claulcation using vina-carb and you hsould get finally two outfiles _LeY-xray_vina_flex_out.pdbqt_ and _LeY-xray_vc_flex_out.pdbqt_. Copy both these files in your local computer and analyze the binding modes. 
 
 
+## 9. Analyzing flexible docking results
+
+Copy output files _LeY-xray_vc_out.pdbqt_ and _LeY-xray_vina_out.pdbqt_ to your loac computer and load them in PyMOL for visual inspection. You will see that Vina and vina-carb show a similar behavior in flexible receptor docking and no segnifican change in the docking conformations have been observed. This shows that flexible receptor docking may not always be needed as rigid receptor docking can dock LeY well into Fab. 
 
 
 
+## Useful resources:
 
-
-
-
-
-
-
-
-
-
-## Protein-glycan docking
-
-```
-1S3K.pdb
-receptor.pdb
-LeY-xray.pdb
-LeY-glycam.pdb
-config_vc.txt
-config_vina.txt
-```
-```
-
-prepare_ligand4.py -l ligand.pdb -o ligand.pdbqt -A hydrogens
-prepare_ligand4.py -l ligand.pdb -o ligand.pdbqt -A hydrogens
-
-
-prepare_receptor4.py -r receptor.pdb -o receptor_rigig.pdb -A "hydrogens"
-prepare_flexreceptor4.py -r receptor.pdbqt -s receptor:H:TYR32_TYR33_TYR50_TRP105 
-
-```
-
-```
-module load vina-carb/v1.2 
-module load autodock-vina
-```
-
-
-
-```
-[sushil@fucose flex_lig]$ 
-
-```
-
-```
-[sushil@fucose flex_lig]$ 
-```
-
-
-
-```
-[sushil@fucose flex_rec]$ vina --config config_vina.txt 
-#################################################################
-# If you used AutoDock Vina in your work, please cite:          #
-#                                                               #
-# O. Trott, A. J. Olson,                                        #
-# AutoDock Vina: improving the speed and accuracy of docking    #
-# with a new scoring function, efficient optimization and       #
-# multithreading, Journal of Computational Chemistry 31 (2010)  #
-# 455-461                                                       #
-#                                                               #
-# DOI 10.1002/jcc.21334                                         #
-#                                                               #
-# Please see http://vina.scripps.edu for more information.      #
-#################################################################
-
-Reading input ... done.
-Setting up the scoring function ... done.
-Analyzing the binding site ... done.
-Using random seed: 0
-Performing search ... 
-0%   10   20   30   40   50   60   70   80   90   100%
-|----|----|----|----|----|----|----|----|----|----|
-***************************************************
-done.
-Refining results ... done.
-
-mode |   affinity | dist from best mode
-     | (kcal/mol) | rmsd l.b.| rmsd u.b.
------+------------+----------+----------
-   1         -7.4      0.000      0.000
-   2         -7.4      2.218      6.436
-   3         -7.1      2.679      6.334
-   4         -7.1      1.627      6.702
-   5         -6.9      2.672      5.984
-   6         -6.5      3.311      6.055
-   7         -6.5      2.336      5.568
-   8         -6.3      3.296      5.312
-   9         -6.2      2.155      5.361
-  10         -6.2      2.393      5.291
-Writing output ... done.
-
-```
-
-```
-[sushil@fucose flex_rec]$ vina-carb --config config_vc.txt 
-#################################################################
-#	 		Vina-Carb Results	 	     	#
-#################################################################
-
-WARNING: at low exhaustiveness, it may be impossible to utilize all CPUs
-Reading input ... done.
-Setting up the scoring function ... done.
-Analyzing the binding site ... done.
-Using random seed: 0
-Performing search ... 
-0%   10   20   30   40   50   60   70   80   90   100%
-|----|----|----|----|----|----|----|----|----|----|
-***************************************************
-done.
-Refining results ... 	BEFORE corresponding chi_energy: 0
-	BEFORE corresponding chi_energy: 0
-	BEFORE corresponding chi_energy: 0
-	.
-  .
-  .
-  BEFORE corresponding chi_energy: 10.1698
-	BEFORE corresponding chi_energy: 19.245
-done.
-
-mode |   affinity |   chi   |  affinity | dist from best mode
-     | (kcal/mol) |  energy |  - chi    | rmsd l.b.| rmsd u.b.
------+------------+---------+--------------------+------------
-   1         -7.6      0.0      -7.6      0.000      0.000
-   2         -7.0      0.0      -7.0      1.409      4.556
-   3         -7.0      0.0      -7.0      1.848      5.843
-   4         -6.6      0.0      -6.6      1.633      4.717
-   5         -6.5      0.0      -6.5      1.828      3.665
-   6         -6.4      0.0      -6.4      1.873      4.753
-   7         -6.3      0.0      -6.3      1.809      5.279
-   8         -6.2      0.0      -6.2      1.817      5.066
-   9         -6.2      0.0      -6.2      1.394      4.693
-  10         -6.1      0.0      -6.1      2.455      6.065
-Writing output ... done.
-
-```
-https://autodock-vina.readthedocs.io/en/latest/docking_flexible.html
 
 https://www.click2drug.org/index.php#Binding%20free%20energy%20estimation 
-
-https://casfaculty.fiu.edu/David.Chatfield/workshop/materials/drug-design/fiu-docking-tutorial.pdf
-https://personal.utdallas.edu/~son051000/comp/EdelmiroMoman.pdf
-
-https://www.bu.edu/chemistry/files/2010/11/Docking.20101122.pdf
