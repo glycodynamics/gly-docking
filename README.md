@@ -103,11 +103,6 @@ module load mgltools/v2.1.5.7				# Load MGL Tools to your working environment
 prepare_ligand4.py -l LeY-xray.pdb -A hydrogens 	# Convert LeY-xray.pdb into LeY-xray.pdbqt (Vina Input file)
 prepare_receptor4.py -r receptor.pdb -o receptor.pdbqt -A "hydrogens"	# Convert receptor.pdb in receptor.pdbqt (Vina Input file)
 ```
-Nore: If you see an error message "**init.c(556):ERROR:161: Cannot initialize TCL**" run the following command to fix it
-```
-unset LD_LIBRARY_PATH
-
-```
 
 ## 4. Perform docking using AutoDock Vina and vina-carb
 In addition to receptor and ligand input files in PDBQT format, a configuration containing all the docking parameters is needed for docking. There are two configuration files _config_vc.txt_ (for vina_carb) and _config_vina.txt_ (for Vina) present in the practice directory. These configuration files have mainly following input parameters:
@@ -343,8 +338,18 @@ Flexible ligand docking should take a longer time compared to rigid receptor doc
 Copy output files _LeY-xray_vc_out.pdbqt_ and _LeY-xray_vina_out.pdbqt_ to your local computer and load them in PyMOL for visual inspection. You will see that Vina and vina-carb show similar behavior in flexible receptor docking and no significant change in the docking conformations has been observed. This shows that flexible receptor docking may not always be needed as rigid receptor docking can dock LeY well into Fab. 
 
 
+## Troubleshooting Errors:
+If you see the following error in the fucose machine, use "unset LD_LIBRARY_PATH" to fix it:
+```
+init.c(556):ERROR:161: Cannot initialize TCL
+```
+Fix:
+```
+unset LD_LIBRARY_PATH
+```
+
 
 ## Useful resources:
-
-
 https://www.click2drug.org/index.php#Binding%20free%20energy%20estimation 
+
+
