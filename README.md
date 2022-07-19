@@ -1,6 +1,15 @@
+## Software Requirements
+If you are a University of Mississippi member, the following software are required to complete this tutorial:\
+Linux/Mac Users: [PyMOL](https://pymol.org/2/)\
+Windows Users: [PyMOL](https://pymol.org/2/), [PuTTY](https://www.putty.org/), [WinSCP](https://winscp.net/eng/download.php)\
+\
+Other users are required to have:\
+Linux/Mac Users: [PyMOL](https://pymol.org/2/), [AutoDock Vina](https://vina.scripps.edu/), [Vina-carb](http://legacy.glycam.org/docs/othertoolsservice/downloads/downloads-software/index.html) and [GlycoTorch Vina](https://github.com/EricBoittier/GlycoTorch-Vina)\
+Windows Users: [PyMOL](https://pymol.org/2/), [PuTTY](https://www.putty.org/), [WinSCP](https://winscp.net/eng/download.php), [AutoDock Vina](https://vina.scripps.edu/)
+
+Vina-carb and GlycoTorch Vina software are not available for windows OS.
+
 # Protein-glycan docking
-
-
 https://autodock-vina.readthedocs.io/en/latest/docking_flexible.html
 
 https://www.click2drug.org/index.php#Binding%20free%20energy%20estimation 
@@ -93,66 +102,8 @@ Now run docking using Vina and vina-carb as below:
 
 ```
 vina --config config_vina.txt   #this will run vina using input parameters in 'config_vina.txt' file
-```
-This run should finish within a minute and file "LeY-xray_vina_out.pdbqt" containing all the docked poses will be generated. Now repeate docking using Vina-carb and input parameters present in "config_vc.txt" file (as below). It should generate a file "LeY-xray_vc_out.pdbqt" taht contains all the docking poses. 
 
-```
-vina-carb --config config_vc.txt   #this will run vina-carb using input parameters in 'config_vc.txt' into back into your computer and load them in PyMOL.
-
-```
-## Visulizing docking poses:
-
-Now, copy _receptor.pdb_, _LeY-xray_vc_out.pdbqt_, and _LeY-xray_vina_out.pdbqt_ 
-```
-63
--bash-4.2$ cd practice
-64
--bash-4.2$ ls -l
-```
-
-
-## Software Requirements
-If you are a University of Mississippi member, the following software are required to complete this tutorial:\
-Linux/Mac Users: [PyMOL](https://pymol.org/2/)\
-Windows Users: [PyMOL](https://pymol.org/2/), [PuTTY](https://www.putty.org/), [WinSCP](https://winscp.net/eng/download.php)\
-\
-Other users are required to have:\
-Linux/Mac Users: [PyMOL](https://pymol.org/2/), [AutoDock Vina](https://vina.scripps.edu/), [Vina-carb](http://legacy.glycam.org/docs/othertoolsservice/downloads/downloads-software/index.html) and [GlycoTorch Vina](https://github.com/EricBoittier/GlycoTorch-Vina)\
-Windows Users: [PyMOL](https://pymol.org/2/), [PuTTY](https://www.putty.org/), [WinSCP](https://winscp.net/eng/download.php), [AutoDock Vina](https://vina.scripps.edu/)
-
-Vina-carb and GlycoTorch Vina software are not available for windows OS.
-
-## Protein-glycan docking
-Docking of Lewis Y Tetrasaccharide to Humanized Fab using AutoDock Vina and Vina-carb. Structure of the complaex is availabe in the protein data bank under PDB ID 1S3K(https://www.rcsb.org/structure/1S3K)
-
-```
-1S3K.pdb
-receptor.pdb
-LeY-xray.pdb
-LeY-glycam.pdb
-config_vc.txt
-config_vina.txt
-```
-```
-
-prepare_ligand4.py -l ligand.pdb -o ligand.pdbqt -A hydrogens
-prepare_ligand4.py -l ligand.pdb -o ligand.pdbqt -A hydrogens
-
-
-prepare_receptor4.py -r receptor.pdb -o receptor_rigig.pdb -A "hydrogens"
-prepare_flexreceptor4.py -r receptor.pdbqt -s receptor:H:TYR32_TYR33_TYR50_TRP105 
-
-```
-
-```
-module load vina-carb/v1.2 
-module load autodock-vina
-```
-
-
-
-```
-[sushil@fucose flex_lig]$ vina --config config_vina.txt
+Output:
 #################################################################
 # If you used AutoDock Vina in your work, please cite:          #
 #                                                               #
@@ -193,11 +144,13 @@ mode |   affinity | dist from best mode
   10         -6.2      2.007      6.492
 Writing output ... done.
 
+```
+This run should finish within a minute and file "LeY-xray_vina_out.pdbqt" containing all the docked poses will be generated. Now repeate docking using Vina-carb and input parameters present in "config_vc.txt" file (as below). It should generate a file "LeY-xray_vc_out.pdbqt" taht contains all the docking poses. 
 
 ```
-
-```
-[sushil@fucose flex_lig]$ vina-carb --config config_vc.txt 
+vina-carb --config config_vc.txt   #this will run vina-carb using input parameters in 'config_vc.txt' 
+Output:
+vina-carb --config config_vc.txt 
 #################################################################
 #	 		Vina-Carb Results	 	     	#
 #################################################################
@@ -239,6 +192,58 @@ mode |   affinity |   chi   |  affinity | dist from best mode
    9         -6.1      0.0      -6.1      2.840      6.246
   10         -6.1      0.0      -6.1      2.176      8.020
 Writing output ... done.
+
+```
+## Visulizing docking poses:
+
+Now, copy _receptor.pdb_, _LeY-xray_vc_out.pdbqt_, and _LeY-xray_vina_out.pdbqt_ into back into your computer and load them in PyMOL.
+
+```
+63
+-bash-4.2$ cd practice
+64
+-bash-4.2$ ls -l
+```
+
+
+
+
+## Protein-glycan docking
+Docking of Lewis Y Tetrasaccharide to Humanized Fab using AutoDock Vina and Vina-carb. Structure of the complaex is availabe in the protein data bank under PDB ID 1S3K(https://www.rcsb.org/structure/1S3K)
+
+```
+1S3K.pdb
+receptor.pdb
+LeY-xray.pdb
+LeY-glycam.pdb
+config_vc.txt
+config_vina.txt
+```
+```
+
+prepare_ligand4.py -l ligand.pdb -o ligand.pdbqt -A hydrogens
+prepare_ligand4.py -l ligand.pdb -o ligand.pdbqt -A hydrogens
+
+
+prepare_receptor4.py -r receptor.pdb -o receptor_rigig.pdb -A "hydrogens"
+prepare_flexreceptor4.py -r receptor.pdbqt -s receptor:H:TYR32_TYR33_TYR50_TRP105 
+
+```
+
+```
+module load vina-carb/v1.2 
+module load autodock-vina
+```
+
+
+
+```
+[sushil@fucose flex_lig]$ 
+
+```
+
+```
+[sushil@fucose flex_lig]$ 
 ```
 
 
