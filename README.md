@@ -1,5 +1,6 @@
 ## Software Requirements
-If you are a University of Mississippi member, the following software are required to complete this tutorial:\
+
+Following software are required to complete this tutorial:\
 Linux/Mac Users: [PyMOL](https://pymol.org/2/)\
 Windows Users: [PyMOL](https://pymol.org/2/), [PuTTY](https://www.putty.org/), [WinSCP](https://winscp.net/eng/download.php)\
 \
@@ -7,32 +8,37 @@ Other users are required to have:\
 Linux/Mac Users: [PyMOL](https://pymol.org/2/), [AutoDock Vina](https://vina.scripps.edu/), [Vina-carb](http://legacy.glycam.org/docs/othertoolsservice/downloads/downloads-software/index.html) and [GlycoTorch Vina](https://github.com/EricBoittier/GlycoTorch-Vina)\
 Windows Users: [PyMOL](https://pymol.org/2/), [PuTTY](https://www.putty.org/), [WinSCP](https://winscp.net/eng/download.php), [AutoDock Vina](https://vina.scripps.edu/)
 
-Vina-carb and GlycoTorch Vina software are not available for windows OS.
+Vina-carb and GlycoTorch Vina software are not available for windows OS. All these programs have been preinstalled in your desktop or we will access them remotely in one of the CCBRC Workstation.
 
-# Protein-glycan docking
-https://autodock-vina.readthedocs.io/en/latest/docking_flexible.html
+# Protein-glycan docking tutorial:
+This tutorial aims to dock a tetrasaccharide to FAb using the [AutoDock Vina](https://vina.scripps.edu), and [Vina-carb](https://pubs.acs.org/doi/10.1021/acs.jctc.5b00834). You can download all the input files by clicking on Code --> Download Zip. Unzip this file and go inside the docking directory. All these files have been placed in the coputer you will be working in. 
 
-https://www.click2drug.org/index.php#Binding%20free%20energy%20estimation 
+We will break down this tutorial into five steps.
 
-https://casfaculty.fiu.edu/David.Chatfield/workshop/materials/drug-design/fiu-docking-tutorial.pdf
-https://personal.utdallas.edu/~son051000/comp/EdelmiroMoman.pdf
+## 1. Obtain Protein and GAG Structure for docking: 
+In this tutorial, we will be docking a Lewis Y Tetrasaccharide with Humanized Fab. First of all, download the X-ray structure of the complex from PDB [PDB ID: 1S3K](https://www.rcsb.org/structure/1s3k). Now, open the PDB Structure in PyMOL and perform the following structure manipulations:
 
-https://www.bu.edu/chemistry/files/2010/11/Docking.20101122.pdf
+![alt text](https://github.com/glycodynamics/gly-docking/blob/main/images/Input_Fig.png)
 
-Docking of Lewis Y Tetrasaccharide to Humanized Fab using AutoDock Vina and Vina-carb. Structure of the complaex is availabe in the protein data bank under PDB ID 1S3K(https://www.rcsb.org/structure/1S3K)
+#### Remove crystal waters: 
+Open 1t8u.pdb file in PyMOL and click non on Action --> remove waters
+#### Save ligand and protein separately
+Now split the complex in protein and glycan and save them separately in two separate PDB files. \
+Select LeY tetrasaccharide by clicking left mouse button on each monosaccharide. Then click on File --> export molecule --> Selection (sele) --> Save File name: ligand --> Files of type: pdb --> save. A [ligand.pdb](https://github.com/glycodynamics/gly-docking/blob/main/receptor_A.pdb) file will be saved in your computer 
 
+Now select all the co-crystalized ligands and remove them (Action --> remove atoms). \
+Then save protein: File --> export molecule --> Selection (1s3k) --> Save File name: receptor --> Files of type: pdb --> save. \
+A [receptor.pdb](https://github.com/glycodynamics/gly-docking/blob/main/receptor.pdb) file will be saved to the current working directory of your computer.
 
-Open PuTTY and connect to Fucose workstation using your credencials:
-```
-ssh -X guest01@fucose.pharmacy.olemiss.edu
-```
+These files have been prepared and placed under ./practice directory under your account in fucose. 
+
 ##Connect to remote workstation:
 
-All input files have been prepared and placed under ./practice directory for your convenience . 
+Login to fucose using the instructions provided during the lecture. Linux/Mac users can use terminal to connect to ccbrc workstation, whereas windows users should use PyTTY to connect to the CCBRC workstation.
 
-Login to fucose using the instructions provided during the lecture. Linux/Mac users can use terminal to connect to ccbrc workstation, whereas windows users should use PyTTY to connect to the ccbrc workstation.
 ```
-leo:~ sushil$ ssh -X guestXX@machine.host.name
+$ ssh -X guestXX@fucose.pharmacy.olemiss.edu ## replace XX with your serial number
+
 guestXX@machine.host.name's password: 
 Last login: Tue Jul 19 13:33:49 2022 from idose.pharmacy.olemiss.edu
 
@@ -47,8 +53,6 @@ Last login: Tue Jul 19 13:33:49 2022 from idose.pharmacy.olemiss.edu
 ##	authorized users only. 						## 
 ##									##
 ##########################################################################
--bash-4.2$ pwd
-
 ```
 Now if you will type "ls -l" and hit enter, there should be two directories "practice and tutorial" available to everyone.
 ```
@@ -85,7 +89,7 @@ cresset/Forge                naccess1/v2.1.1
 cresset/Spark                namd/3.0alpha
 
 ```
-## Prepare flexible ligand and rigid receptor input files for docking
+## 2. Prepare flexible ligand and rigid receptor input files for docking
 Change direcotry to 'flex_lig' and run follwoing commands to perform docking:
 
 ```
@@ -96,12 +100,13 @@ module load mgltools/v2.1.5.7				# Load MGL Tools to your working environment
 prepare_ligand4.py -l LeY-xray.pdb -A hydrogens 	# Convert LeY-xray.pdb into LeY-xray.pdbqt (Vina Input file)
 prepare_receptor4.py -r receptor.pdb -o receptor.pdbqt -A "hydrogens"	# Convert receptor.pdb in receptor.pdbqt (Vina Input file)
 ```
-If you see an error message "**init.c(556):ERROR:161: Cannot initialize TCL**" run follwoing command to fix it
+Nore: If you see an error message "**init.c(556):ERROR:161: Cannot initialize TCL**" run follwoing command to fix it
 ```
 unset LD_LIBRARY_PATH
 
 ```
-## Perform docking using AutoDock Vina andvina-carb
+
+## 3. Perform docking using AutoDock Vina andvina-carb
 Now run docking using Vina and vina-carb as below:
 
 ```
@@ -151,6 +156,7 @@ Writing output ... done.
 ```
 This run should finish within a minute and file "LeY-xray_vina_out.pdbqt" containing all the docked poses will be generated. Now repeate docking using Vina-carb and input parameters present in "config_vc.txt" file (as below). It should generate a file "LeY-xray_vc_out.pdbqt" taht contains all the docking poses. 
 
+Perform docking using Vina-carb:
 ```
 $ vina-carb --config config_vc.txt   	#this will run vina-carb using input parameters in 'config_vc.txt' 
 
@@ -198,14 +204,18 @@ mode |   affinity |   chi   |  affinity | dist from best mode
 Writing output ... done.
 
 ```
-## Visulizing docking poses:
+## 5. Analyzing Docking Results
+Since have docked LeY to Fab using two different software, AutoDock Vina, Vina-carb. These three programs differ in their approach to sample glycosidic linkage between monosaccharide units. Now visualize docking poses and see which program predicted LeY binding similar to what has been seen in the crystal structure of the complex obtained from PDB [PDB ID: 1S3K](https://www.rcsb.org/structure/1s3k). Copy _receptor.pdb_, _LeY-xray_vc_out.pdbqt_, and _LeY-xray_vina_out.pdbqt_ from fucose to your computer using WinSCP and load them in PyMOL.Now start PyMOL and load these files and analyze all docking poses by pressing the right arrow key of the keyboard. 
 
-Now, copy _receptor.pdb_, _LeY-xray_vc_out.pdbqt_, and _LeY-xray_vina_out.pdbqt_ into back into your computer and load them in PyMOL.
+
+![alt text](https://github.com/glycodynamics/gly-docking/blob/main/images/Vina_docking_Fig.png)
+
+Yoi will see that top scoring pose from AutoDock is very different from the crystal structure binding pose of LeY. However, Vina-carb docking pose superimposes very over the crystal structure binding pose. This shows that Chi entrinsic energy function introdused in vina-carb produces accurate results compared to Vina. However the 3rd docking pose of very accurate but the scoring function failed to rank this pose as the top ranking pose. Suppose if we did not know how LeY binds to Fab, we would never that docking results by vina are not correct. Therefore, for the cases where the dockind protocol cannot be validadated by reproducing the crystal structures of the some ligands, it is advised to analyzed a number of top scoring poses carefully and instead relying on the just top scoring pose. 
 
 
-# Flexible receptor docking 
+## 6. Flexible receptor docking 
 
-Change direcotory to 
+Change direcotory to lex_rec and repeat the calculations as for rigid receptor docking.
 ```
 $ cd ~/practice/flex_rec
 $ ls -l 
@@ -426,4 +436,11 @@ mode |   affinity |   chi   |  affinity | dist from best mode
 Writing output ... done.
 
 ```
+https://autodock-vina.readthedocs.io/en/latest/docking_flexible.html
 
+https://www.click2drug.org/index.php#Binding%20free%20energy%20estimation 
+
+https://casfaculty.fiu.edu/David.Chatfield/workshop/materials/drug-design/fiu-docking-tutorial.pdf
+https://personal.utdallas.edu/~son051000/comp/EdelmiroMoman.pdf
+
+https://www.bu.edu/chemistry/files/2010/11/Docking.20101122.pdf
