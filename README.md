@@ -110,6 +110,31 @@ unset LD_LIBRARY_PATH
 ```
 
 ## 4. Perform docking using AutoDock Vina andvina-carb
+In addiiton to receptor and liagnd input files in PDBQT format, a configuration containing all the docking parameters is needed for docking. There are two configuration files _config_vc.txt_ (for vina_carb) and _config_vina.txt_ (for Vina) present in the practice directory. These configuration file have mainly follwoiing input parameters:
+
+```
+receptor=receptor.pdbqt		# name of receptor input file
+ligand=LeY-xray.pdbqt		# name of the ligand input file
+out=LeY-xray_vina_out.pdbqt	# name of the docking output file
+
+center_x=-32.79          	# x, y and z coordinate of the search box
+center_y=40.56          
+center_z=14.89          
+                         
+size_x=30                	# Size of the search space box in Angstrom in x, y and z direction
+size_y=30                
+size_z=25                
+                         
+exhaustiveness=8   		# exhaustiveness of the global search (roughly proportional to time)
+seed=0      			# explicit random seed - reproducibelity          
+num_modes=10            	# number of docking solutions
+energy_range=5          	# within enery raange 
+cpu=8				# number of CPU cores used for docking
+chi_coeff=1			# Chi coefficient energy (used in vina-carb only)              
+chi_cutoff=2			# Chi cutoff energy (used in vina-carb only)
+```
+
+
 Now run docking using Vina and vina-carb as below:
 
 ```
@@ -255,7 +280,18 @@ total 1508
 Please not that '-s' option in prepare_flexreceptor4.py script allows user to procvide residues which you want to keep flexible during the docking. In this case we are keeping four amino-acid residues _Tyr3 Tyr33 Tyr50 and Trp105_ flexible during the docking. In general one should keep only those residue to be flexible whose conformational changes can affect ligand binding. Output file _receptor_flex.pdbqt_ and _receptor_rigid.pdbqt_ contains flexible and rigid part of the receptor for docking.
 
 ## 8. Perform docking using AutoDock Vina and vina-carb
-Now run docking using Vina and vina-carb as below:
+
+Configuration file for flexible receptor docking is nearly identlical as ofr rigid receptor docking except the input file names. Since receptor has been splitted into flexible and rigid parts, configuration file shoudl have follwoing keywords
+
+```
+receptor=receptor_rigid.pdbqt	#name of file containing rigid part of the receptor
+flex=receptor_flex.pdbqt	#name of file containing flexible part of the receptor
+
+_REST ALL WILL REMAIN SAME_
+
+```
+
+Now run docking using Vina and vina-carb as earlier for rigid receptor docking:
 
 ```
 $ vina --config config_vina.txt   	#this will run vina using input parameters in 'config_vina.txt' file
